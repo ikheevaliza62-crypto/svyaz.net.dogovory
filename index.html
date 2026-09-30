@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>СвязьИнвест/Договоры</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+     <!-- Библиотеки для DOCX -->
+<script src="https://cdn.jsdelivr.net/npm/pizzip@3.1.7/dist/pizzip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/docxtemplater@3.42.2/build/docxtemplater.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+
+</head>
+<body>
+
+<!-- ================= ГЛАВНАЯ СТРАНИЦА ================= -->
+<div class="app" id="mainApp">
+    <div class="top-bar">
+        <button class="btn-admin" id="openAdminBtn" title="Панель администратора">
+            <i class="fas fa-user-shield"></i> Админ
+        </button>
+    </div>
+
+    <div class="logo-area">
+        <img src="logo.png" alt="Логотип компании" class="logo-img">
+    </div>
+
+    <!-- 2. Общие данные -->
+    <div class="card">
+        <h2><i class="fas fa-file-contract" style="margin-right: 12px; color: #6f96b4;"></i>Общие данные</h2>
+        <div class="grid-3">
+            <div class="field">
+                <label>Номер договора</label>
+                <input type="text" id="contractNumber" placeholder="Например: 12/2025" maxlength="50">
+            </div>
+            <div class="field">
+                <label>Дата договора</label>
+                <div class="input-with-btn">
+                    <input type="text" id="contractDate" placeholder="дд.мм.гггг" inputmode="numeric" maxlength="10" autocomplete="off">
+                    <button class="calendar-btn" id="datePickerBtn" title="Выбрать дату">
+                        <i class="fas fa-calendar-alt"></i>
+                    </button>
+                </div>
+                <span class="field-error" id="contractDateError"></span>
+            </div>
+            <div class="field">
+                <label>Действует до</label>
+                <div class="input-with-btn">
+                    <input type="text" id="validUntil" placeholder="дд.мм.гггг" inputmode="numeric" maxlength="10" autocomplete="off">
+                    <button class="calendar-btn" id="validPickerBtn" title="Выбрать дату">
+                        <i class="fas fa-calendar-alt"></i>
+                    </button>
+                </div>
+                <span class="field-error" id="validUntilError"></span>
+            </div>
+        </div>
+    </div>
+
+        <!-- 3. Данные клиента -->
+    <div class="card">
+        <h2><i class="fas fa-building" style="margin-right: 12px; color: #6f96b4;"></i>Данные клиента</h2>
+        <div class="grid-2">
+            <div class="field">
+                <label>Тип клиента</label>
+                <input list="clientTypes" id="clientType" placeholder="Выберите или введите">
+                <datalist id="clientTypes">
+                    <option value="ПАО">
+                    <option value="ООО">
+                    <option value="АО">
+                    <option value="НАО">
+                    <option value="ИП">
+                </datalist>
+            </div>
+            <div class="field">
+                <label>Название</label>
+                <input type="text" id="clientName" placeholder="ООО «Ромашка»">
+            </div>
+            <div class="field">
+                <label>ИНН</label>
+                <div class="input-with-btn">
+                    <input type="text" id="inn" placeholder="10 или 12 цифр" inputmode="numeric" maxlength="12">
+                    <button class="btn-icon" id="findByInnBtn" title="Найти по ИНН">
+                        <i class="fas fa-search"></i> Найти
+                    </button>
+                </div>
+                <span class="field-error" id="innError"></span>
+            </div>
+            <div class="field">
+                <label>КПП</label>
+                <input type="text" id="kpp" placeholder="9 цифр" inputmode="numeric" maxlength="9">
+                <span class="field-error" id="kppError"></span>
+            </div>
+            <div class="field">
+                <label>ОГРН/ОГРНИП</label>
+                <input type="text" id="ogrn" placeholder="13 или 15 цифр" inputmode="numeric" maxlength="15">
+                <span class="field-error" id="ogrnError"></span>
+            </div>
+            <div class="field">
+                <label>ОКПО</label>
+                <input type="text" id="okpo" placeholder="8 или 10 цифр" inputmode="numeric" maxlength="10">
+                <span class="field-error" id="okpoError"></span>
+            </div>
+            <div class="field">
+                <label>ОКВЭД</label>
+                <input type="text" id="okved" placeholder="например: 62.01" maxlength="8" autocomplete="off">
+                <span class="field-error" id="okvedError"></span>
+            </div>
+            <div class="field">
+                <label>Руководитель</label>
+                <input type="text" id="director" placeholder="Иванов Иван Иванович">
+            </div>
+            <div class="field">
+                <label>Должность</label>
+                <input type="text" id="position" placeholder="Генеральный директор">
+            </div>
+            <div class="field">
+                <label>Юр. адрес</label>
+                <input type="text" id="legalAddress" placeholder="г. Москва, ул. ...">
+            </div>
+            <div class="field">
+                <label>Телефон</label>
+                <input type="text" id="phone" placeholder="+7 (___) ___-__-__" inputmode="numeric" maxlength="18">
+                <span class="field-error" id="phoneError"></span>
+            </div>
+            <div class="field">
+                <label>Email</label>
+                <input type="email" id="email" placeholder="client@example.com">
+                <span class="field-error" id="emailError"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Банковские реквизиты -->
+    <div class="card">
+        <h2><i class="fas fa-university" style="margin-right: 12px; color: #6f96b4;"></i>Банковские реквизиты</h2>
+        <div class="grid-2">
+            <div class="field">
+                <label>БИК</label>
+                <div class="input-with-btn">
+                    <input type="text" id="bik" placeholder="9 цифр" inputmode="numeric" maxlength="9">
+                    <button class="btn-icon" id="findByBikBtn" title="Найти по БИК">
+                        <i class="fas fa-search"></i> Найти
+                    </button>
+                </div>
+                <span class="field-error" id="bikError"></span>
+            </div>
+            <div class="field">
+                <label>Банк</label>
+                <input type="text" id="bankName" placeholder="Наименование банка">
+            </div>
+            <div class="field">
+                <label>Расчетный счет</label>
+                <input type="text" id="account" placeholder="20 цифр" inputmode="numeric" maxlength="20">
+                <span class="field-error" id="accountError"></span>
+            </div>
+            <div class="field">
+                <label>Корр. счет</label>
+                <input type="text" id="corrAccount" placeholder="20 цифр" inputmode="numeric" maxlength="20">
+                <span class="field-error" id="corrAccountError"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" id="availableTemplatesCard">
+        <h2><i class="fas fa-file-signature" style="margin-right: 12px; color: #6f96b4;"></i>Доступные договоры</h2>
+        <div id="availableTemplates">
+            <p class="empty-message">Выберите тип клиента, чтобы увидеть доступные договоры</p>
+        </div>
+        <div class="selected-template-info" id="selectedTemplateInfo" style="display: none;">
+            <i class="fas fa-check-circle"></i>
+            Выбран договор: <strong id="selectedTemplateName"></strong>
+        </div>
+    </div>
+
+    <div class="bottom-panel">
+        <div class="create-btn-wrapper">
+            <button class="btn-create" id="createDocBtn">
+                <i class="fas fa-file-signature"></i> Создать документ
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ================= МОДАЛЬНОЕ ОКНО ================= -->
+<div class="modal-overlay" id="codeModal">
+    <div class="modal">
+        <h3><i class="fas fa-lock"></i> Вход в панель администратора</h3>
+        <p class="modal-desc">Введите код доступа</p>
+        <input type="password" id="accessCodeInput" placeholder="••••" maxlength="8" inputmode="numeric" autocomplete="off">
+        <div class="modal-error" id="codeError"></div>
+        <div class="modal-actions">
+            <button class="btn-modal btn-cancel" id="cancelCodeBtn">Отмена</button>
+            <button class="btn-modal btn-confirm" id="confirmCodeBtn">Войти</button>
+        </div>
+    </div>
+</div>
+
+<!-- ================= ПАНЕЛЬ АДМИНИСТРАТОРА ================= -->
+<div class="app admin-app" id="adminApp" style="display: none;">
+    <div class="admin-header">
+        <h1><i class="fas fa-user-shield"></i> Панель администратора</h1>
+        <button class="btn-exit" id="exitAdminBtn">
+            <i class="fas fa-sign-out-alt"></i> Выход
+        </button>
+    </div>
+
+    <div class="admin-tabs">
+        <button class="tab-btn active" data-tab="contracts">
+            <i class="fas fa-file-signature"></i> Договоры
+        </button>
+        <button class="tab-btn" data-tab="deadlines">
+            <i class="fas fa-calendar-check"></i> Сроки
+        </button>
+        <button class="tab-btn" data-tab="archive">
+            <i class="fas fa-archive"></i> Архив
+        </button>
+    </div>
+
+    <!-- Вкладка: Договоры (шаблоны) -->
+    <div class="tab-panel active" id="tab-contracts">
+        <div class="card">
+            <h2><i class="fas fa-upload" style="margin-right: 12px; color: #6f96b4;"></i>Добавить шаблон</h2>
+
+            <div class="template-form">
+                <div class="grid-2">
+                    <div class="field">
+                        <label>Название договора</label>
+                        <input type="text" id="templateName" placeholder="Например: Договор поставки">
+                    </div>
+                    <div class="field">
+                        <label>Тип клиента</label>
+                        <select id="templateClientType">
+                            <option value="">— Выберите тип —</option>
+                            <option value="ПАО">ПАО</option>
+                            <option value="ООО">ООО</option>
+                            <option value="АО">АО</option>
+                            <option value="НАО">НАО</option>
+                            <option value="ИП">ИП</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="upload-area" id="uploadArea">
+                    <input type="file" id="templateFileInput" accept=".docx" hidden>
+                    <div class="upload-content" id="uploadContent">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p><strong>Нажмите</strong> или перетащите файл сюда</p>
+                        <span>Поддерживается только формат .docx</span>
+                    </div>
+                </div>
+
+                <div class="selected-file" id="selectedFileInfo" style="display:none;">
+                    <i class="fas fa-file-word"></i>
+                    <span id="selectedFileName"></span>
+                    <button class="btn-clear-file" id="clearFileBtn" title="Убрать файл">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="upload-hint" id="uploadHint"></div>
+
+                <button class="btn-add-template" id="addTemplateBtn">
+                    <i class="fas fa-plus"></i> Добавить шаблон
+                </button>
+
+                <div class="hint-about-tags">
+                    <i class="fas fa-info-circle"></i>
+                    В шаблоне .docx используйте метки вида <code>{{contractNumber}}</code>, <code>{{clientName}}</code>, <code>{{inn}}</code> и т.д.
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-list" style="margin-right: 12px; color: #6f96b4;"></i>Список шаблонов</h2>
+            <div id="templatesList" class="templates-list">
+                <p class="empty-message">Шаблоны пока не добавлены</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Вкладка: Сроки -->
+    <div class="tab-panel" id="tab-deadlines">
+        <div class="card">
+            <h2><i class="fas fa-calendar-check" style="margin-right: 12px; color: #6f96b4;"></i>Действующие договоры</h2>
+            <p class="tab-desc">Отсортированы по ближайшей дате окончания. Договоры с истёкшим сроком автоматически попадают в Архив.</p>
+            <div id="deadlinesList" class="contracts-list">
+                <p class="empty-message">Нет действующих договоров</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Вкладка: Архив -->
+    <div class="tab-panel" id="tab-archive">
+        <div class="card">
+            <h2><i class="fas fa-archive" style="margin-right: 12px; color: #6f96b4;"></i>Архив договоров</h2>
+            <p class="tab-desc">Договоры с истёкшим сроком действия и расторгнутые.</p>
+            <div id="archiveList" class="contracts-list">
+                <p class="empty-message">Архив пуст</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
