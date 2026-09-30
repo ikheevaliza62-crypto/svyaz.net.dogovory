@@ -227,11 +227,6 @@ body {
     padding-top: 12px;
 }
 
-
-
-
-
-
 .create-btn-wrapper {
     display: flex;
     justify-content: center;
@@ -752,37 +747,6 @@ body {
     transform: translateY(0);
 }
 
-@media (max-width: 750px) {
-    .app {
-        padding: 22px 18px;
-    }
-    .grid-2, .grid-3 {
-        grid-template-columns: 1fr;
-        gap: 14px;
-    }
-    .input-with-btn {
-        flex-wrap: wrap;
-    }
-    .btn-icon {
-        height: 44px;
-        padding: 0 14px;
-    }
-    .calendar-btn {
-        width: 44px;
-        height: 44px;
-    }
-    .btn-create {
-        width: 100%;
-        justify-content: center;
-        padding: 16px 24px;
-        font-size: 1.05rem;
-    }
-    .btn-add-template {
-        width: 100%;
-        justify-content: center;
-    }
-}
-
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
@@ -871,7 +835,6 @@ body {
     font-size: 1.1rem;
 }
 
-
 .btn-create:disabled,
 .btn-create.btn-disabled {
     opacity: 0.55;
@@ -879,7 +842,6 @@ body {
     transform: none !important;
     box-shadow: 0 4px 10px rgba(70, 120, 160, 0.12);
 }
-
 
 /* ===== Admin tabs ===== */
 .admin-tabs {
@@ -939,7 +901,7 @@ body {
     margin-top: -8px;
 }
 
-/* ===== Contracts list (Сроки / Архив) ===== */
+/* ===== Contracts list ===== */
 .contracts-list {
     display: flex;
     flex-direction: column;
@@ -1105,23 +1067,196 @@ body {
     transform: translateY(1px);
 }
 
+/* ========== МОБИЛЬНАЯ ВЕРСИЯ ========== */
 @media (max-width: 750px) {
+    body {
+        padding: 12px 10px;
+    }
+
+    .app {
+        padding: 18px 14px;
+        border-radius: 22px;
+    }
+
+    .logo-img {
+        max-height: 160px;
+        max-width: 100%;
+    }
+
+    .logo-area {
+        margin-bottom: 20px;
+    }
+
+    .card {
+        padding: 16px 14px;
+        border-radius: 18px;
+        margin-bottom: 16px;
+    }
+
+    .card h2 {
+        font-size: 1.15rem;
+        padding-left: 12px;
+        margin-bottom: 14px;
+    }
+
+    .grid-2,
+    .grid-3 {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .field input,
+    .field select {
+        font-size: 16px; /* чтобы iOS не увеличивал масштаб */
+        padding: 12px 14px;
+    }
+
+    .input-with-btn {
+        flex-wrap: nowrap;
+    }
+
+    .btn-icon {
+        height: 46px;
+        padding: 0 12px;
+        font-size: 0.9rem;
+        border-radius: 14px;
+    }
+
+    .calendar-btn {
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
+    }
+
+    .btn-create {
+        width: 100%;
+        justify-content: center;
+        padding: 16px 20px;
+        font-size: 1.05rem;
+    }
+
+    .btn-add-template {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .btn-admin {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+    }
+
+    .admin-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .admin-header h1 {
+        font-size: 1.25rem;
+        justify-content: center;
+    }
+
+    .btn-exit {
+        width: 100%;
+        justify-content: center;
+    }
+
     .admin-tabs {
         flex-direction: column;
+        gap: 6px;
     }
+
     .tab-btn {
         min-width: 0;
+        width: 100%;
+        padding: 12px 14px;
     }
+
+    .available-template-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 12px 14px;
+    }
+
+    .available-template-type {
+        align-self: flex-start;
+    }
+
+    .template-item {
+        padding: 12px 14px;
+    }
+
     .contract-item {
         flex-direction: column;
         align-items: flex-start;
+        padding: 12px 14px;
     }
+
     .contract-actions {
         width: 100%;
+        margin-top: 8px;
     }
+
     .btn-download,
     .btn-terminate {
         flex: 1;
         justify-content: center;
+        padding: 10px 12px;
+    }
+
+    .modal {
+        padding: 24px 18px;
+        border-radius: 22px;
+        margin: 10px;
+    }
+
+    .modal h3 {
+        font-size: 1.1rem;
+    }
+
+    .modal input {
+        font-size: 1.1rem;
+        letter-spacing: 4px;
+    }
+
+    .loading-toast {
+        left: 12px;
+        right: 12px;
+        transform: none;
+        width: auto;
+        justify-content: center;
+        font-size: 0.9rem;
+        padding: 12px 16px;
+        bottom: 20px;
+    }
+
+    .hint-about-tags {
+        font-size: 0.8rem;
+        padding: 10px 12px;
+    }
+
+    .selected-template-info {
+        font-size: 0.88rem;
+        padding: 10px 14px;
+    }
+}
+
+/* Очень узкие экраны */
+@media (max-width: 380px) {
+    .app {
+        padding: 14px 10px;
+    }
+
+    .card h2 {
+        font-size: 1.05rem;
+    }
+
+    .btn-icon span {
+        display: none; /* на очень узких оставляем только иконку */
+    }
+
+    .btn-icon {
+        padding: 0 12px;
     }
 }
